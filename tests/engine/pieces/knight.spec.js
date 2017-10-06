@@ -45,4 +45,15 @@ describe('Knight', () => {
 
         moves.should.deep.include(Square.at(2, 5));
     });
+
+    it('cannot leave the board', () => {
+        const knight = new Knight(Player.WHITE);
+        board.setPiece(Square.at(0, 0), knight);
+
+        const moves = knight.getAvailableMoves(board);
+
+        const expectedMoves = [Square.at(1, 2), Square.at(2, 1)];
+
+        moves.should.deep.have.members(expectedMoves);
+    });
 });
