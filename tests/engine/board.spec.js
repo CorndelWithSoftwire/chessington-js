@@ -1,8 +1,8 @@
 import 'chai/register-should';
-import Board from '../../../src/js/engine/board';
-import Pawn from '../../../src/js/engine/pieces/pawn';
-import Player from '../../../src/js/engine/player';
-import Square from '../../../src/js/engine/square';
+import Board from '../../src/engine/board';
+import Pawn from '../../src/engine/pieces/pawn';
+import Player from '../../src/engine/player';
+import Square from '../../src/engine/square';
 
 describe('Board', () => {
 
