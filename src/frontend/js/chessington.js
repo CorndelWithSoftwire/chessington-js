@@ -9,15 +9,20 @@ import Bishop from '../../engine/pieces/bishop';
 import Queen from '../../engine/pieces/queen';
 import King from '../../engine/pieces/king';
 
-let chessBoardUI;
+let boardUI;
 let board;
 
-function positionObjectKey(square) {
+function squareToPositionString(square) {
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    return letters[square.row] + (square.col + 1).toString();
+    return letters[square.col] + (square.row + 1).toString();
 }
 
-function positionObjectValue(piece) {
+function positionStringToSquare(positionString) {
+    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+    return Square.at(parseInt(positionString.charAt(1), 10) - 1, letters.indexOf(positionString.charAt(0)));
+}
+
+function pieceToPieceString(piece) {
     const playerString = piece.player === Player.WHITE ? 'w' : 'b';
     
     if (piece instanceof Pawn) {
@@ -43,22 +48,74 @@ function boardToPositionObject() {
             const piece = board.getPiece(square);
 
             if (!!piece) {
-                position[positionObjectKey(square)] = positionObjectValue(piece);
+                position[squareToPositionString(square)] = pieceToPieceString(piece);
             }
         }
     }
     return position;
 }
 
-export function createChessBoard() {
-    board = new Board();
+function onDragStart(source, piece, position, orientation) {
+    return (board.currentPlayer === Player.WHITE && piece.search(/^w/) !== -1) ||
+           (board.currentPlayer === Player.BLACK && piece.search(/^b/) !== -1);
+}
 
-    chessBoardUI = ChessBoard(
+function onDrop(source, target) {
+    const pieceMoved = board.movePiece(positionStringToSquare(source), positionStringToSquare(target));
+    if (!pieceMoved) {
+        return 'snapback';
+    }
+    updateStatus();
+}
+
+function updateStatus() {
+    const player = board.currentPlayer === Player.WHITE ? 'White' : 'Black';
+    document.getElementById('turn-status').innerHTML = `${player} to move`;
+}
+
+function boardInStartingPosition() {
+    let board = new Board();
+    
+    for (let i = 0; i < GameSettings.BOARD_SIZE; i++) {
+        board.setPiece(Square.at(1, i), new Pawn(Player.WHITE));
+        board.setPiece(Square.at(6, i), new Pawn(Player.BLACK));
+    }
+
+    for (let i of [0, 7]) {
+        board.setPiece(Square.at(0, i), new Rook(Player.WHITE));
+        board.setPiece(Square.at(7, i), new Rook(Player.BLACK));
+    }
+
+    for (let i of [1, 6]) {
+        board.setPiece(Square.at(0, i), new Knight(Player.WHITE));
+        board.setPiece(Square.at(7, i), new Knight(Player.BLACK));
+    }
+
+    for (let i of [2, 5]) {
+        board.setPiece(Square.at(0, i), new Bishop(Player.WHITE));
+        board.setPiece(Square.at(7, i), new Bishop(Player.BLACK));
+    }
+
+    board.setPiece(Square.at(0, 3), new Queen(Player.WHITE));
+    board.setPiece(Square.at(7, 3), new Queen(Player.BLACK));
+
+    board.setPiece(Square.at(0, 4), new King(Player.WHITE));
+    board.setPiece(Square.at(7, 4), new King(Player.BLACK));
+
+    return board;
+}
+
+export function createChessBoard() {
+    board = boardInStartingPosition();
+    boardUI = ChessBoard(
         'chess-board', 
         {
-            position: boardToPositionObject(board),
             showNotation: false,
-            draggable: true
+            draggable: true,
+            position: boardToPositionObject(board),
+            onDragStart: onDragStart,
+            onDrop: onDrop
         }
     );
+    updateStatus();
 }

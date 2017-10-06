@@ -1,3 +1,7 @@
 #chess-board {
     width: 400px;
 }
+
+#turn-status {
+    font-size: 20px;
+}

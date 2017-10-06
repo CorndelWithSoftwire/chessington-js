@@ -35,18 +35,16 @@ export default class Board {
         throw new Error('The supplied piece is not on the board');
     }
 
+    // Returns `true` if a move actually happened, and `false` otherwise.
     movePiece(fromSquare, toSquare) {
-        const movingPiece = this.getPiece(fromSquare);
-        const capturedPiece = this.getPiece(toSquare);
-        
-        if (!!movingPiece) {
-            if (movingPiece.player !== this.currentPlayer) {
-                throw new Error('The moving piece does not belong to the current player');
-            }
-
+        const movingPiece = this.getPiece(fromSquare);        
+        if (!!movingPiece && movingPiece.player === this.currentPlayer && movingPiece.getAvailableMoves(this).includes(toSquare)) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-            this.currentPlayer = this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
+            this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
+            return true;
+        } else {
+            return false;
         }
     }
 }
