@@ -3,9 +3,7 @@ import GameSettings from './gameSettings';
 import Square from './square';
 
 export default class Board {
-    constructor(onPieceCaptured, onCurrentPlayerChanged) {
-        this.onPieceCaptured = onPieceCaptured;
-        this.onCurrentPlayerChanged = onCurrentPlayerChanged;
+    constructor() {
         this.currentPlayer = Player.WHITE;
         this.board = this.createBoard();
     }
@@ -46,15 +44,9 @@ export default class Board {
                 throw new Error('The moving piece does not belong to the current player');
             }
 
-            if (!!capturedPiece) {
-                this.onPieceCaptured(capturedPiece);
-            }
-
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
-
             this.currentPlayer = this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE;
-            this.onCurrentPlayerChanged(this.currentPlayer);
         }
     }
 }

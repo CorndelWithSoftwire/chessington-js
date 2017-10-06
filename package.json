@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "clean": "del-cli dist/**/* logs/*",
-    "build": "npm run clean && babel ./src --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
+    "bundle": "webpack",
+    "build": "npm run clean && babel ./src --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files && npm run bundle",
     "start": "npm run build && node dist/index.js",
     "test": "mocha --compilers js:babel-core/register ./tests/**/*.spec.js"
   },
@@ -16,7 +17,8 @@
     "babel-preset-env": "^1.6.0",
     "chai": "^4.1.2",
     "del-cli": "^1.1.0",
-    "mocha": "^4.0.1"
+    "mocha": "^4.0.1",
+    "webpack": "^3.6.0"
   },
   "dependencies": {
     "express": "^4.16.1"
