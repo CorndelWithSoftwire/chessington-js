@@ -16,6 +16,6 @@ export default class King extends Piece {
             Square.at(row + 1, col - 1), Square.at(row, col - 1),
             Square.at(row - 1, col - 1), Square.at(row - 1, col),
             Square.at(row - 1, col + 1), Square.at(row, col + 1)
-        ].filter(square => board.squareInBounds(square));
+        ].filter(square => board.squareInBounds(square) && this._isFreeOrCapturable(board, square));
     }
 }
