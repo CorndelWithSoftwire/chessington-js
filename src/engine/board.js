@@ -50,4 +50,12 @@ export default class Board {
             0 <= square.col && square.col < GameSettings.BOARD_SIZE
         );
     }
+
+    squareIsEmpty(square) {
+        return this.getPiece(square) === undefined;
+    }
+
+    squareIsOccupied(square) {
+        return this.getPiece(square) !== undefined;
+    }
 }

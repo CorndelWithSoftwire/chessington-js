@@ -14,7 +14,9 @@ export default class Pawn extends Piece {
         const singleMoveSquare = Square.at(location.row + delta, location.col);
         const doubleMoveSquare = Square.at(location.row + 2 * delta, location.col);
 
-        if (this.hasMoved) {
+        if (board.squareIsOccupied(singleMoveSquare)) {
+            return [];
+        } else if (board.squareIsOccupied(doubleMoveSquare) || this.hasMoved) {
             return [singleMoveSquare];
         } else {
             return [singleMoveSquare, doubleMoveSquare];
