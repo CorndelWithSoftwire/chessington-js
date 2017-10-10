@@ -36,7 +36,7 @@ export default class Piece {
         const location = board.findPiece(this);
 
         let moves = [], nextSquare = location;
-        while (board.squareInBounds(nextSquare = directionFunc(nextSquare))) {
+        while (board.squareInBounds(nextSquare = directionFunc(nextSquare)) && board.squareIsEmpty(nextSquare)) {
             moves.push(nextSquare);
         }
         return moves;
