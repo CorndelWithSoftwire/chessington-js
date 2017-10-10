@@ -11,6 +11,13 @@ export default class Pawn extends Piece {
         const location = board.findPiece(this);
         const delta = this.player === Player.WHITE ? 1 : -1;
         
-        return [Square.at(location.row + delta, location.col)];
+        const singleMoveSquare = Square.at(location.row + delta, location.col);
+        const doubleMoveSquare = Square.at(location.row + 2 * delta, location.col);
+
+        if (this.hasMoved) {
+            return [singleMoveSquare];
+        } else {
+            return [singleMoveSquare, doubleMoveSquare];
+        }
     }
 }
