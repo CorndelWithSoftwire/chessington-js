@@ -4,6 +4,7 @@ import Square from '../square';
 export default class King extends Piece {
     constructor(player) {
         super(player);
+        this.canBeCaptured = false;
     }
 
     getAvailableMoves(board) {

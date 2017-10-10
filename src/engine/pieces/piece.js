@@ -4,6 +4,7 @@ export default class Piece {
     constructor(player) {
         this.player = player;
         this.hasMoved = false;
+        this.canBeCaptured = true;
     }
 
     getAvailableMoves(board) {
@@ -36,9 +37,20 @@ export default class Piece {
         const location = board.findPiece(this);
 
         let moves = [], nextSquare = location;
-        while (board.squareInBounds(nextSquare = directionFunc(nextSquare)) && board.squareIsEmpty(nextSquare)) {
+        while (board.squareInBounds(nextSquare = directionFunc(nextSquare)) && this._isFreeOrCapturable(board, nextSquare)) {
             moves.push(nextSquare);
+            if (board.squareIsOccupied(nextSquare)) {
+                break;
+            }
         }
         return moves;
+    }
+
+    _isFreeOrCapturable(board, square) {
+        return board.squareIsEmpty(square) || this._isCapturable(board.getPiece(square));
+    }
+
+    _isCapturable(otherPiece) {
+        return otherPiece.player !== this.player && otherPiece.canBeCaptured;
     }
 }
