@@ -61,10 +61,14 @@ function onDragStart(source, piece, position, orientation) {
 }
 
 function onDrop(source, target) {
-    const pieceMoved = board.movePiece(positionStringToSquare(source), positionStringToSquare(target));
-    if (!pieceMoved) {
+    const fromSquare = positionStringToSquare(source);
+    const toSquare = positionStringToSquare(target);
+    const pieceToMove = board.getPiece(fromSquare);
+    
+    if (!pieceToMove || !pieceToMove.getAvailableMoves(board).some(square => square.equals(toSquare))) {
         return 'snapback';
     }
+    pieceToMove.moveTo(board, toSquare);
     updateStatus();
 }
 
