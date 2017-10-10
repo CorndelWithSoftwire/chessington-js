@@ -38,7 +38,7 @@ export default class Board {
     // Returns `true` if a move actually happened, and `false` otherwise.
     movePiece(fromSquare, toSquare) {
         const movingPiece = this.getPiece(fromSquare);        
-        if (!!movingPiece && movingPiece.player === this.currentPlayer && movingPiece.getAvailableMoves(this).includes(toSquare)) {
+        if (!!movingPiece && movingPiece.player === this.currentPlayer && movingPiece.getAvailableMoves(this).some(square => square.equals(toSquare))) {
             this.setPiece(toSquare, movingPiece);
             this.setPiece(fromSquare, undefined);
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
