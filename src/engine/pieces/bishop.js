@@ -6,6 +6,6 @@ export default class Bishop extends Piece {
     }
 
     getAvailableMoves(board) {
-        return new Array(0);
+        return this._getAvailableDiagonalMoves(board);
     }
 }

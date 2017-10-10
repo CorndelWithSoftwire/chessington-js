@@ -43,4 +43,11 @@ export default class Board {
             this.currentPlayer = (this.currentPlayer === Player.WHITE ? Player.BLACK : Player.WHITE);
         }
     }
+
+    squareInBounds(square) {
+        return (
+            0 <= square.row && square.row < GameSettings.BOARD_SIZE && 
+            0 <= square.col && square.col < GameSettings.BOARD_SIZE
+        );
+    }
 }
