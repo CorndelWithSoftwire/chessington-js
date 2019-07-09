@@ -8,7 +8,7 @@
     "bundle": "webpack",
     "build": "npm run clean && babel ./src --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files && npm run bundle",
     "start": "npm run build && node dist/index.js",
-    "test": "mocha --compilers js:babel-core/register ./tests/**/*.spec.js"
+    "test": "mocha --compilers js:babel-core/register './tests/**/*.spec.js'"
   },
   "author": "",
   "license": "ISC",
