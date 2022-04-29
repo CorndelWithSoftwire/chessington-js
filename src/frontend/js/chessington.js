@@ -26,17 +26,17 @@ function pieceToPieceString(piece) {
     const playerString = piece.player === Player.WHITE ? 'w' : 'b';
     
     if (piece instanceof Pawn) {
-        return playerString + 'P'
+        return playerString + 'P';
     } else if (piece instanceof Rook) {
-        return playerString + 'R'
+        return playerString + 'R';
     } else if (piece instanceof Knight) {
-        return playerString + 'N'
+        return playerString + 'N';
     } else if (piece instanceof Bishop) {
-        return playerString + 'B'
+        return playerString + 'B';
     } else if (piece instanceof Queen) {
-        return playerString + 'Q'
+        return playerString + 'Q';
     } else if (piece instanceof King) {
-        return playerString + 'K'
+        return playerString + 'K';
     }
 }
 
@@ -70,6 +70,10 @@ function onDrop(source, target) {
     }
     pieceToMove.moveTo(board, toSquare);
     updateStatus();
+}
+
+function onSnapEnd() {
+    boardUI.position(boardToPositionObject());
 }
 
 function updateStatus() {
@@ -118,7 +122,8 @@ export function createChessBoard() {
             draggable: true,
             position: boardToPositionObject(board),
             onDragStart: onDragStart,
-            onDrop: onDrop
+            onDrop: onDrop,
+            onSnapEnd: onSnapEnd,
         }
     );
     updateStatus();
